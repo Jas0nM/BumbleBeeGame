@@ -16,10 +16,12 @@
 // Global values for the app
 class app
 {
-	public:
+	    static const float playerSpeed;
 		unsigned int bumbleBee;
 		unsigned int background;
+		float playerX, playerY;
 
+	public:
 		// constructor
 		app() { memset ( this, 0, sizeof(app)); }
 
