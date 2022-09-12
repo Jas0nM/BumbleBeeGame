@@ -23,20 +23,29 @@ int app::Loop (void)
 {
 	
 	float const moveThisFrame = playerSpeed * agk::GetFrameTime();
+	float moveX = 0.0f;
+	float moveY = 0.0f;
 
-	if (agk::GetRawKeyState(AGK_KEY_UP)) {
-		playerY -= moveThisFrame;
+	if (agk::GetRawKeyState(AGK_KEY_UP) || agk::GetRawKeyState(AGK_KEY_W)) {
+		moveY -= 1.0f;
 	}
-	if (agk::GetRawKeyState(AGK_KEY_DOWN)) {
-		playerY += moveThisFrame;
+	if (agk::GetRawKeyState(AGK_KEY_DOWN) || agk::GetRawKeyState(AGK_KEY_S)) {
+		moveY += 1.0f;
 	}
-	if (agk::GetRawKeyState(AGK_KEY_LEFT)) {
-		playerX -= moveThisFrame;
+	if (agk::GetRawKeyState(AGK_KEY_LEFT) || agk::GetRawKeyState(AGK_KEY_A)) {
+		moveX -= 1.0f;
 		agk::SetSpriteFlip(bumbleBee, 1, 0);
 	}
-	if (agk::GetRawKeyState(AGK_KEY_RIGHT)) {
-		playerX += moveThisFrame;
+	if (agk::GetRawKeyState(AGK_KEY_RIGHT) || agk::GetRawKeyState(AGK_KEY_D)) {
+		moveX += 1.0f;
 		agk::SetSpriteFlip(bumbleBee, 0, 0);
+	}
+
+	const float moveDistance = agk::Sqrt((moveX * moveX) + (moveY * moveY));
+
+	if (moveDistance > 0.0f) {
+		playerX += (moveX / moveDistance) * moveThisFrame;
+		playerY += (moveY / moveDistance) * moveThisFrame;
 	}
 
 	const float minX = agk::GetSpriteWidth(bumbleBee) / 2;
